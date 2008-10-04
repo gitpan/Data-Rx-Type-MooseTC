@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Data::Rx::Type::MooseTC;
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 # ABSTRACT: experimental / proof of concept Rx types from Moose types
 
@@ -39,6 +39,7 @@ sub check {
   my ($self, $value) = @_;
 
   return unless $self->{tc}->check($value);
+  return 1;
 }
 
 1;
@@ -53,7 +54,7 @@ Data::Rx::Type::MooseTC - experimental / proof of concept Rx types from Moose ty
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 SYNOPSIS
 
