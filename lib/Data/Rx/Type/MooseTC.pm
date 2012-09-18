@@ -1,9 +1,11 @@
 use strict;
 use warnings;
 package Data::Rx::Type::MooseTC;
-our $VERSION = '0.002';
-
+{
+  $Data::Rx::Type::MooseTC::VERSION = '0.003';
+}
 # ABSTRACT: experimental / proof of concept Rx types from Moose types
+use parent 'Data::Rx::CommonType::EasyNew';
 
 use Carp ();
 use Moose::Util::TypeConstraints ();
@@ -11,8 +13,8 @@ use Moose::Util::TypeConstraints ();
 
 sub type_uri { 'tag:rjbs.manxome.org,2008-10-04:rx/moose/tc' }
 
-sub new_checker {
-  my ($class, $arg, $rx) = @_;
+sub guts_from_arg {
+  my ($class, $arg) = @_;
 
   Carp::croak("no type supplied for $class") unless my $mt = $arg->{moose_type};
 
@@ -21,7 +23,10 @@ sub new_checker {
   if (ref $mt) {
     $tc = $mt;
   } else {
-    package Moose::Util::TypeConstraints; # SUCH LONG IDENTIFIERS
+    package Moose::Util::TypeConstraints;
+{
+  $Moose::Util::TypeConstraints::VERSION = '0.003';
+} # SUCH LONG IDENTIFIERS
 
     $tc = find_or_parse_type_constraint( normalize_type_constraint_name($mt) );
   }
@@ -29,23 +34,26 @@ sub new_checker {
   Carp::croak("could not make Moose type constraint from $mt")
     unless $tc->isa('Moose::Meta::TypeConstraint');
 
-  my $self = { tc => $tc };
-  bless $self => $class;
-
-  return $self;
+  return { tc => $tc };
 }
 
-sub check {
+sub assert_valid {
   my ($self, $value) = @_;
 
-  return unless $self->{tc}->check($value);
+  unless ($self->{tc}->check($value)) {
+    $self->fail({
+      error   => [ qw(type) ],
+      message => "found value does not pass type constraint",
+      value   => $value,
+    });
+  }
+
   return 1;
 }
 
 1;
 
 __END__
-
 =pod
 
 =head1 NAME
@@ -54,28 +62,28 @@ Data::Rx::Type::MooseTC - experimental / proof of concept Rx types from Moose ty
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 SYNOPSIS
 
-    use Data::Rx;
-    use Data::Rx::Type::MooseTC;
-    use Test::More tests => 2;
+  use Data::Rx;
+  use Data::Rx::Type::MooseTC;
+  use Test::More tests => 2;
 
-    my $rx = Data::Rx->new({
-      prefix  => {
-        moose => 'tag:rjbs.manxome.org,2008-10-04:rx/moose/',
-      },
-      type_plugins => [ 'Data::Rx::Type::MooseTC' ]
-    });
+  my $rx = Data::Rx->new({
+    prefix  => {
+      moose => 'tag:rjbs.manxome.org,2008-10-04:rx/moose/',
+    },
+    type_plugins => [ 'Data::Rx::Type::MooseTC' ]
+  });
 
-    my $array_of_int = $rx->make_schema({
-      type       => '/moose/tc',
-      moose_type => 'ArrayRef[Int]',
-    });
+  my $array_of_int = $rx->make_schema({
+    type       => '/moose/tc',
+    moose_type => 'ArrayRef[Int]',
+  });
 
-    ok($array_of_int->check([1]), "[1] is an ArrayRef[Int]");
-    ok(! $array_of_int->check( 1 ), "1 is not an ArrayRef[Int]");
+  ok($array_of_int->check([1]), "[1] is an ArrayRef[Int]");
+  ok(! $array_of_int->check( 1 ), "1 is not an ArrayRef[Int]");
 
 =head1 WARNING
 
@@ -85,15 +93,14 @@ Moose type constraints may change their interface in the future.
 
 =head1 AUTHOR
 
-  Ricardo SIGNES <rjbs@cpan.org>
+Ricardo SIGNES <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2008 by Ricardo SIGNES.
+This software is copyright (c) 2012 by Ricardo SIGNES.
 
 This is free software; you can redistribute it and/or modify it under
-the same terms as perl itself.
+the same terms as the Perl 5 programming language system itself.
 
-=cut 
-
+=cut
 
