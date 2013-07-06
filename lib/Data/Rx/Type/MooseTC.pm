@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package Data::Rx::Type::MooseTC;
 {
-  $Data::Rx::Type::MooseTC::VERSION = '0.003';
+  $Data::Rx::Type::MooseTC::VERSION = '0.004';
 }
 # ABSTRACT: experimental / proof of concept Rx types from Moose types
 use parent 'Data::Rx::CommonType::EasyNew';
@@ -25,7 +25,7 @@ sub guts_from_arg {
   } else {
     package Moose::Util::TypeConstraints;
 {
-  $Moose::Util::TypeConstraints::VERSION = '0.003';
+  $Moose::Util::TypeConstraints::VERSION = '0.004';
 } # SUCH LONG IDENTIFIERS
 
     $tc = find_or_parse_type_constraint( normalize_type_constraint_name($mt) );
@@ -54,6 +54,7 @@ sub assert_valid {
 1;
 
 __END__
+
 =pod
 
 =head1 NAME
@@ -62,7 +63,7 @@ Data::Rx::Type::MooseTC - experimental / proof of concept Rx types from Moose ty
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 SYNOPSIS
 
@@ -97,10 +98,9 @@ Ricardo SIGNES <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Ricardo SIGNES.
+This software is copyright (c) 2013 by Ricardo SIGNES.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
