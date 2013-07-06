@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package Data::Rx::Type::MooseTC;
 {
-  $Data::Rx::Type::MooseTC::VERSION = '0.004';
+  $Data::Rx::Type::MooseTC::VERSION = '0.005';
 }
 # ABSTRACT: experimental / proof of concept Rx types from Moose types
 use parent 'Data::Rx::CommonType::EasyNew';
@@ -23,11 +23,8 @@ sub guts_from_arg {
   if (ref $mt) {
     $tc = $mt;
   } else {
-    package Moose::Util::TypeConstraints;
-{
-  $Moose::Util::TypeConstraints::VERSION = '0.004';
-} # SUCH LONG IDENTIFIERS
-
+    package
+      Moose::Util::TypeConstraints; # SUCH LONG IDENTIFIERS
     $tc = find_or_parse_type_constraint( normalize_type_constraint_name($mt) );
   }
 
@@ -63,7 +60,7 @@ Data::Rx::Type::MooseTC - experimental / proof of concept Rx types from Moose ty
 
 =head1 VERSION
 
-version 0.004
+version 0.005
 
 =head1 SYNOPSIS
 

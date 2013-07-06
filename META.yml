@@ -29,7 +29,7 @@ resources:
   bugtracker: https://github.com/rjbs/data-rx-type-moosetc/issues
   homepage: https://github.com/rjbs/data-rx-type-moosetc
   repository: https://github.com/rjbs/data-rx-type-moosetc.git
-version: 0.004
+version: 0.005
 x_Dist_Zilla:
   perl:
     version: 5.019001
