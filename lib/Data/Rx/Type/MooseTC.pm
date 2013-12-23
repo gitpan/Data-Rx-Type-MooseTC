@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package Data::Rx::Type::MooseTC;
 {
-  $Data::Rx::Type::MooseTC::VERSION = '0.005';
+  $Data::Rx::Type::MooseTC::VERSION = '0.006';
 }
 # ABSTRACT: experimental / proof of concept Rx types from Moose types
 use parent 'Data::Rx::CommonType::EasyNew';
@@ -54,13 +54,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 Data::Rx::Type::MooseTC - experimental / proof of concept Rx types from Moose types
 
 =head1 VERSION
 
-version 0.005
+version 0.006
 
 =head1 SYNOPSIS
 
